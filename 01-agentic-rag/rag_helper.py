@@ -74,18 +74,14 @@ class RAGBase:
         )
 
         # return usage along the response for the homework
-        return response.content[0].text, response.usage.input_tokens
+        return response
 
     def rag(self, query):
         search_results = self.search(query)
         prompt = self.build_prompt(query, search_results)
-        answer, input_tokens = self.llm(prompt)
+        response = self.llm(prompt)
         # pass down usage for homework
-        return answer, input_tokens
-
-
-# FIXME
-# MAKE IT RETURN USAGE ALONG THE RESPONSE
+        return response.content[0].text, response.usage.input_tokens
 
 # subclass for homework
 class RAGBaseHomework(RAGBase):
