@@ -5,6 +5,6 @@
 __pycache__
 
 # data base and runtime/temporary files
-faq.db
+*.db
 *.db-shm
 *.db-wal
