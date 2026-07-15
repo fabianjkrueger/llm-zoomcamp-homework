@@ -1,0 +1,12 @@
+# keep the streamlit image build context small (context is repo root)
+.venv
+.git
+.cursor
+.env
+**/__pycache__
+**/*.pyc
+**/.ipynb_checkpoints
+01-agentic-rag
+02-vector-search
+03-orchestration
+04-evaluation

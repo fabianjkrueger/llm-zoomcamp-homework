@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:17
+    # inject POSTGRES_* from repo-root .env into the container
+    env_file:
+      - ../.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - postgres
+
+  streamlit:
+    build:
+      # repo root: pyproject.toml / uv.lock live one level up
+      context: ..
+      dockerfile: 05-monitoring/Dockerfile
+    # inject API keys + DB credentials from repo-root .env
+    env_file:
+      - ../.env
+    environment:
+      # override host: inside compose the DB hostname is the service name
+      - POSTGRES_HOST=postgres
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  grafana_data:
